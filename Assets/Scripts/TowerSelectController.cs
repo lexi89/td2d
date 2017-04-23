@@ -10,13 +10,15 @@ public class TowerSelectController : MonoBehaviour {
 
 	public HorizontalLayoutGroup menuContent;
 	public GameObject towerButtonPrefab;
-	public Transform playArea;
+	public Plane ground;
 	GameObject towerSelected;
 	[SerializeField]
 	List<GameObject> towers;
+	BuildLayerManager _buildLayer;
 
 	void Awake(){
 		instance = this;
+		_buildLayer = BuildLayerManager.instance;
 	}
 
 	void Start(){
@@ -38,8 +40,14 @@ public class TowerSelectController : MonoBehaviour {
 	}
 
 	public void onTowerDeselected(){
-		print ("pointer up!");
+		if(_buildLayer.canPlace (towerSelected.transform.position)){
+			_buildLayer.placeTower (towerSelected.transform.position, towerSelected.transform);
+			towerSelected.GetComponent <Tower>().place ();
+		} else{
+			Destroy (towerSelected);
+		}
 		towerSelected = null;
+
 	}
 
 	void Update(){
@@ -54,10 +62,17 @@ public class TowerSelectController : MonoBehaviour {
 
 	void moveTowerToMousePos(){
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, LayerMask.GetMask ("buildplaces"));
-		if(hit.collider != null){
-			towerSelected.transform.position = hit.collider.transform.position;
+		RaycastHit info;
+
+		if(Physics.Raycast (ray, out info, 100, LayerMask.GetMask ("Buildplaces"))){
+			if (BuildLayerManager.instance.canPlace (info.collider.transform.position)){
+				towerSelected.GetComponent <Tower>().canPlace ();
+			} else{
+				towerSelected.GetComponent <Tower>().cantPlace ();
+			}
+			towerSelected.transform.position = info.collider.transform.position;
 		}
 	}
+
 
 }
