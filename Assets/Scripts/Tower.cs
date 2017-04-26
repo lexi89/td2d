@@ -9,6 +9,7 @@ public class Tower : MonoBehaviour {
 	public static int widthInUnits;
 	public static int heightInUnits;
 
+	public GameObject attackProjectile;
 	public Sprite menuImage;
 	public Sprite level1;
 	public Sprite level2;
@@ -17,10 +18,10 @@ public class Tower : MonoBehaviour {
 	public float attackSpeedInSeconds;
 	public float attackDamage;
 	float nextAttackTime = 0.0f;
-	
 
 	Color originalColor;
 	Material material;
+	Transform currentTarget;
 	List<Transform> potentialTargets;
 
 	void Awake(){
@@ -41,14 +42,24 @@ public class Tower : MonoBehaviour {
 
 	void Update(){
 		if(potentialTargets.Count > 0){
-			Attack ();
+			for (int i = 0; i < potentialTargets.Count; i++) {
+				if(potentialTargets[i] != null){
+					Attack (potentialTargets[i]);
+				} else {
+					// target died in the previous frame.
+					potentialTargets.RemoveAt (i);
+				}
+			}
 		}
 	}
 		
-	public void Attack(){
+	public void Attack(Transform target){
 		if(Time.time > nextAttackTime){
 			nextAttackTime = Time.time + attackSpeedInSeconds;
-			print ("attack!");
+			GameObject newProjectile = Instantiate (attackProjectile, transform.position, Quaternion.identity) as GameObject;
+			newProjectile.transform.position = new Vector3 (transform.position.x, 1.5f, transform.position.z);
+			print ("shooting a target at " + target.position);
+			newProjectile.GetComponent <Projectile>().fire (target);
 		}
 	}
 

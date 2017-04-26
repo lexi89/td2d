@@ -47,9 +47,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void onCreepKilled(){
-		print ("creep killed");
 		if(numberOfCreepsKilled == numberOfCreepsSpawned){
-			print ("wave complete!");
 			StartCoroutine ("nextWave");
 		}
 	}
