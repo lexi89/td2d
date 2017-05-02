@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
 	public Text waveCountText;
 	public List<Wave> waves;
 	int waveCount;
+	int numberOfCreepsToSpawn;
 	int numberOfCreepsSpawned;
 	int numberOfCreepsKilled;
 
@@ -26,11 +27,16 @@ public class GameController : MonoBehaviour {
 
 	IEnumerator nextWave(){
 		waveCount++;
-		setWaveText ();
-		yield return new WaitForSeconds (2f);
-		numberOfCreepsSpawned = 0;
-		numberOfCreepsKilled = 0;
-		InvokeRepeating ("SpawnCreep", 0f, waves[waveCount].delayBetweenSpawns);
+		// 2
+		if(waveCount <= waves.Count){
+			setWaveText ();
+			yield return new WaitForSeconds (2f);
+			numberOfCreepsToSpawn = waves [waveCount].numberOfCreeps;
+			numberOfCreepsSpawned = 0;
+			numberOfCreepsKilled = 0;
+			InvokeRepeating ("SpawnCreep", 0f, waves[waveCount].delayBetweenSpawns);	
+		}
+			
 	}
 
 	void SpawnCreep(){
@@ -47,7 +53,8 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void onCreepKilled(){
-		if(numberOfCreepsKilled == numberOfCreepsSpawned){
+		numberOfCreepsKilled++;
+		if(numberOfCreepsKilled == numberOfCreepsToSpawn){
 			StartCoroutine ("nextWave");
 		}
 	}

@@ -42,7 +42,7 @@ public class TowerSelectController : MonoBehaviour {
 	public void onTowerDeselected(){
 		if(_buildLayer.canPlace (towerSelected.transform.position)){
 			_buildLayer.placeTower (towerSelected.transform.position, towerSelected.transform);
-			towerSelected.GetComponent <Tower>().place ();
+			towerSelected.GetComponent <EnableOnPlace>().OnPlace ();
 		} else{
 			Destroy (towerSelected);
 		}

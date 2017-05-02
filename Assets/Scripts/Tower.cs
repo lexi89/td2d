@@ -30,6 +30,10 @@ public class Tower : MonoBehaviour {
 		potentialTargets = new List<Transform> ();
 	}
 
+	void OnEnable(){
+		GetComponent <NavMeshObstacle>().enabled = true;
+	}
+
 	void OnTriggerEnter(Collider other){
 		if(other.gameObject.tag == "Creep"){
 			potentialTargets.Add (other.transform);
@@ -58,13 +62,8 @@ public class Tower : MonoBehaviour {
 			nextAttackTime = Time.time + attackSpeedInSeconds;
 			GameObject newProjectile = Instantiate (attackProjectile, transform.position, Quaternion.identity) as GameObject;
 			newProjectile.transform.position = new Vector3 (transform.position.x, 1.5f, transform.position.z);
-			print ("shooting a target at " + target.position);
 			newProjectile.GetComponent <Projectile>().fire (target);
 		}
-	}
-
-	public void place(){
-		GetComponent <NavMeshObstacle>().enabled = true;
 	}
 
 	public void cantPlace(){

@@ -7,5 +7,4 @@ public class Wave : MonoBehaviour {
 	public int numberOfCreeps;
 	public float delayBetweenSpawns;
 	public int creepSpeed;
-
 }
