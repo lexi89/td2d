@@ -11,6 +11,11 @@ public class TowerSelectController : MonoBehaviour {
 	public HorizontalLayoutGroup menuContent;
 	public GameObject towerButtonPrefab;
 	public Plane ground;
+	public float YOffset;
+	public bool IsBuilding{
+		get{ return _isBuilding;}
+	}
+	bool _isBuilding;
 	GameObject towerSelected;
 	[SerializeField]
 	List<GameObject> towers;
@@ -31,15 +36,19 @@ public class TowerSelectController : MonoBehaviour {
 	}
 
 	public void onTowerSelected(GameObject newTowerSelected){
+		ToggleMovingMode (true);
 		if(towerSelected != null){
 			return;
 		}
+		_isBuilding = true;
 		GameObject newTower = Instantiate (newTowerSelected) as GameObject;
 		towerSelected = newTower;
 		moveTowerToMousePos ();
 	}
 
 	public void onTowerDeselected(){
+		_isBuilding = false;
+		ToggleMovingMode (false);
 		if(_buildLayer.canPlace (towerSelected.transform.position)){
 			_buildLayer.placeTower (towerSelected.transform.position, towerSelected.transform);
 			towerSelected.GetComponent <EnableOnPlace>().OnPlace ();
@@ -61,17 +70,26 @@ public class TowerSelectController : MonoBehaviour {
 	}
 
 	void moveTowerToMousePos(){
-		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		RaycastHit info;
-
-		if(Physics.Raycast (ray, out info, 100, LayerMask.GetMask ("Buildplaces"))){
-			if (BuildLayerManager.instance.canPlace (info.collider.transform.position)){
+		Vector3 offSetMousePos = new Vector3 (Input.mousePosition.x, Input.mousePosition.y + YOffset, Input.mousePosition.z);
+		Ray ray = Camera.main.ScreenPointToRay (offSetMousePos);
+		RaycastHit buildPlaceHitInfo;
+		RaycastHit groundHitInfo;
+		if(Physics.Raycast (ray, out buildPlaceHitInfo, 100, LayerMask.GetMask ("Buildplaces"))){
+			if (BuildLayerManager.instance.canPlace (buildPlaceHitInfo.collider.transform.position)){
 				towerSelected.GetComponent <Tower>().canPlace ();
 			} else{
 				towerSelected.GetComponent <Tower>().cantPlace ();
 			}
-			towerSelected.transform.position = info.collider.transform.position;
+			towerSelected.transform.position = buildPlaceHitInfo.collider.transform.position;
+		} else{
+			if(Physics.Raycast (ray, out groundHitInfo, 100, LayerMask.GetMask ("Ground"))){
+				towerSelected.transform.position = groundHitInfo.point;
+			}
 		}
+	}
+
+	void ToggleMovingMode(bool isOn){
+		// hide the tower menu and show delete zone
 	}
 
 

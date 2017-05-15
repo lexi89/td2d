@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour {
 
 	void SpawnCreep(){
 		if(numberOfCreepsSpawned < waves[waveCount].numberOfCreeps){			
-			Instantiate (CreepPrefab, SpawnPoint.position, Quaternion.identity);
+			Instantiate (CreepPrefab, SpawnPoint.position, Quaternion.Euler (0f,90f,0f));
 			numberOfCreepsSpawned++;
 		} else {
 			CancelInvoke ();

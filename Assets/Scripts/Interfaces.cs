@@ -1,10 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Interfaces : MonoBehaviour {
-
-}
 
 public interface IKillable
 {
@@ -13,5 +7,5 @@ public interface IKillable
 
 public interface IDamageable
 {
-	void Damage(float damageTaken);
+	void TakeDamage(float damageTaken);
 }

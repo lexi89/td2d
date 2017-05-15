@@ -28,6 +28,9 @@ public class BuildLayerManager : MonoBehaviour {
 				GameObject newBuildplace = Instantiate (BuildPlacePrefab) as GameObject;
 				newBuildplace.transform.SetParent (PlayArea);
 				newBuildplace.transform.position = new Vector3 ((float)x, 1f, (float)z);
+//				if(Debug){
+//					newBuildplace.GetComponent <Material>().color = Color.blue;
+//				}
 				if(isInBounds (newBuildplace.transform.position)){
 					newBuildplace.GetComponent <SpriteRenderer>().color = Color.green;
 				}

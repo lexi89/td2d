@@ -31,19 +31,18 @@ public class Projectile : MonoBehaviour {
 			}
 		}
 	}
-
-
-
+		
 	void OnTriggerEnter(Collider col){
 		_isFlying = false;
 		if(col.tag == "Creep" && col.gameObject.activeSelf){
 			if(ExplosionPrefab != null){
 				GetComponent <MeshRenderer>().enabled = false;
+				GetComponent <BoxCollider>().enabled = false;
 				Instantiate (ExplosionPrefab, transform, false);
 			} else{
 				Destroy (gameObject);	
 			}
-			col.gameObject.GetComponent <Creep> ().Damage (damage);
+			col.gameObject.GetComponent <Creep> ().TakeDamage (damage);
 		}
 	}
 }
