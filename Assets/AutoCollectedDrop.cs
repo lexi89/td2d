@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AutoCollectedDrop : MonoBehaviour {
 
+	public ICounter ThingToIncrement;
+	public int numberOfThingsToAdd;
+
 	void Start () {
 		springOutInRandomDirection ();
 	}
@@ -16,6 +19,15 @@ public class AutoCollectedDrop : MonoBehaviour {
 	}
 
 	void GoToOrigin(){
-		iTween.MoveTo (gameObject, iTween.Hash ("position", transform.parent.position, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack));
+		iTween.MoveTo (gameObject, iTween.Hash ("position", transform.parent.position, "time", 0.5f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "IncrementThing"));
 	}
+
+	void IncrementThing(){
+		ThingToIncrement.Add (numberOfThingsToAdd);
+		Destroy (gameObject);
+	}
+
+
+
+
 }
