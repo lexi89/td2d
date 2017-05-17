@@ -9,7 +9,8 @@ public class GameController : MonoBehaviour {
 	public Transform Castle;
 	public Transform SpawnPoint;
 	public GameObject CreepPrefab;
-	public Text waveCountText;
+	public Text waveCountUIText;
+	public Text waveNoticeText;
 	public List<Wave> waves;
 	int waveCount;
 	int numberOfCreepsToSpawn;
@@ -25,18 +26,25 @@ public class GameController : MonoBehaviour {
 		StartCoroutine ("nextWave");
 	}
 
-	IEnumerator nextWave(){
+	void nextWave(){
 		waveCount++;
-		// 2
-		if(waveCount <= waves.Count){
-			setWaveText ();
-			yield return new WaitForSeconds (2f);
-			numberOfCreepsToSpawn = waves [waveCount].numberOfCreeps;
-			numberOfCreepsSpawned = 0;
-			numberOfCreepsKilled = 0;
-			InvokeRepeating ("SpawnCreep", 0f, waves[waveCount].delayBetweenSpawns);	
+		if(waveCount < waves.Count){
+			StartCoroutine ("StartSpawningNextWave");
+		} else{
+			print ("game over");
 		}
-			
+	}
+
+	IEnumerator StartSpawningNextWave(){
+		string waveCountString = string.Concat ("Wave: ", (waveCount + 1).ToString ());
+		waveCountUIText.text = waveCountString;
+		waveNoticeText.text = waveCountString;
+		showWaveNotice ();
+		yield return new WaitForSeconds (2f);
+		numberOfCreepsToSpawn = waves [waveCount].numberOfCreeps;
+		numberOfCreepsSpawned = 0;
+		numberOfCreepsKilled = 0;
+		InvokeRepeating ("SpawnCreep", 0f, waves[waveCount].delayBetweenSpawns);		
 	}
 
 	void SpawnCreep(){
@@ -55,12 +63,17 @@ public class GameController : MonoBehaviour {
 	public void onCreepKilled(){
 		numberOfCreepsKilled++;
 		if(numberOfCreepsKilled == numberOfCreepsToSpawn){
-			StartCoroutine ("nextWave");
+			StartCoroutine ("WaveComplete");
 		}
 	}
 
-	void setWaveText(){
-		waveCountText.text = "Wave: " + waveCount;
+	IEnumerator WaveComplete(){
+		// show end of level rewards;
+		yield return new WaitForSeconds (2f);
+		nextWave ();
+	}
 
+	void showWaveNotice(){
+		waveNoticeText.GetComponent <SlamDownNotice> ().enabled = true;
 	}
 }

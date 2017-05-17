@@ -40,11 +40,11 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 		
 	public void Die(){
 		//  play die animation.
-
-		DropsController.instance.DropCoins (Camera.main.WorldToScreenPoint (transform.position), _numberOfCoinsToDrop);
 		agent.enabled = false;
+		GameController.instance.onCreepKilled ();
 		GetComponent <BoxCollider>().enabled = false;
 		GetComponent <MeshRenderer>().enabled = false;
+		DropsController.instance.DropCoins (Camera.main.WorldToScreenPoint (transform.position), _numberOfCoinsToDrop);
 		Destroy (gameObject);
 	}
 		
