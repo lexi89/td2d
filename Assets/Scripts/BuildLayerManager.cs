@@ -21,17 +21,25 @@ public class BuildLayerManager : MonoBehaviour {
 //    bool _isGridShowing;
 	[SerializeField] GameObject _buildPopup;
 	[SerializeField] List<GameObject> _towers;
+	[SerializeField] Vector3 BuildpoupOffset;
 	Vector3 _buildTargetPos;
+	BuildPlace currentActiveBuildPlace;
 
-	public void OnBuildPlaceClicked(Vector3 dest)
+	public void OnBuildPlaceClicked(BuildPlace newBuildPlace)
 	{
-		_buildTargetPos = dest;
-		_buildPopup.transform.position = new Vector3(dest.x, 0.5f, dest.z);
+		if(currentActiveBuildPlace != null) currentActiveBuildPlace.SetHighlightActive(false);
+		currentActiveBuildPlace = newBuildPlace;
+		newBuildPlace.SetHighlightActive(true);
+		_buildTargetPos = newBuildPlace.transform.position;
+		Vector3 screenPos = Camera.main.WorldToScreenPoint(_buildTargetPos);
+		screenPos += BuildpoupOffset;
+		_buildPopup.transform.position = new Vector3(screenPos.x, screenPos.y, screenPos.z);
 		_buildPopup.SetActive(true);
 	}
 
 	public void Build()
 	{
+		currentActiveBuildPlace.SetHighlightActive(false);
 		GameObject newTower = Instantiate(_towers[0]);
 		newTower.transform.position = _buildTargetPos;
 		_buildPopup.SetActive(false);

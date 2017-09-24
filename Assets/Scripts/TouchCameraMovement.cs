@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
-public class TouchCameraMovement : MonoBehaviour {
-
+public class TouchCameraMovement : MonoBehaviour
+{
 	[SerializeField] float _scrollSpeed;
 	[SerializeField] float _fastSwipeThreshold;
 	Vector3 oldPos;
-	
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -51,3 +46,5 @@ public class TouchCameraMovement : MonoBehaviour {
 //		#endif
 	}
 }
+
+public delegate void SimpleEvent();

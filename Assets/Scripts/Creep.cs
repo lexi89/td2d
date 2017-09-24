@@ -19,7 +19,7 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 	}
 
 	void Start(){
-		agent.SetDestination (GameController.instance.Castle.position);
+		agent.SetDestination (GameController.Instance.Castle.position);
 		_numberOfCoinsToDrop = (int)UnityEngine.Random.Range (minCoins, maxCoins);
 	}
 
@@ -41,7 +41,7 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 	public void Die(){
 		//  play die animation.
 		agent.enabled = false;
-		GameController.instance.onCreepKilled ();
+		GameController.Instance.onCreepKilled ();
 		GetComponent <BoxCollider>().enabled = false;
 		GetComponent <MeshRenderer>().enabled = false;
 		DropsController.instance.DropCoins (Camera.main.WorldToScreenPoint (transform.position), _numberOfCoinsToDrop);

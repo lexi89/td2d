@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
-	public static GameController instance;
+	public static GameController Instance;
 	public Transform Castle;
 	public Transform SpawnPoint;
 	public GameObject CreepPrefab;
@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour {
 	int numberOfCreepsKilled;
 
 	void Awake(){
-		instance = this;
+		Instance = this;
 	}
 
 	void Start(){
