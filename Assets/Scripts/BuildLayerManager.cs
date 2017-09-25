@@ -5,51 +5,75 @@ using UnityEngine;
 public class BuildLayerManager : MonoBehaviour {
 
 	public static BuildLayerManager instance;
-//	public GameObject BuildPlacePrefab;
-//	public Transform PlayArea;
-//	public int boardWidthInUnits;
-//	public int boardHeightInUnits;
-//    public Color canBuildColor;
-//    public Color cannotBuildColor;
-//    public Sprite GridBoxSprite;
-//	[SerializeField]
-//	int _playSpaceWidthInUnits;
-//	[SerializeField]
-//	int _playSpaceHeightInUnits;
-//    List<Transform> buildPlaces;
-//    [SerializeField] Dictionary<Vector3, BuildPlace> placeData;
-//    bool _isGridShowing;
+	[SerializeField] LayerMask _buildLayerMask;
 	[SerializeField] GameObject _buildPopup;
-	[SerializeField] List<GameObject> _towers;
+	[SerializeField] GameObject _buildConfirmPopup;
 	[SerializeField] Vector3 BuildpoupOffset;
-	Vector3 _buildTargetPos;
-	BuildPlace currentActiveBuildPlace;
-
-	public void OnBuildPlaceClicked(BuildPlace newBuildPlace)
-	{
-		if(currentActiveBuildPlace != null) currentActiveBuildPlace.SetHighlightActive(false);
-		currentActiveBuildPlace = newBuildPlace;
-		newBuildPlace.SetHighlightActive(true);
-		_buildTargetPos = newBuildPlace.transform.position;
-		Vector3 screenPos = Camera.main.WorldToScreenPoint(_buildTargetPos);
-		screenPos += BuildpoupOffset;
-		_buildPopup.transform.position = new Vector3(screenPos.x, screenPos.y, screenPos.z);
-		_buildPopup.SetActive(true);
-	}
-
-	public void Build()
-	{
-		currentActiveBuildPlace.SetHighlightActive(false);
-		GameObject newTower = Instantiate(_towers[0]);
-		newTower.transform.position = _buildTargetPos;
-		_buildPopup.SetActive(false);
-	}
+	GameObject newTower;
+	Vector3 _currentBuildPos;
+	bool _isBuilding;
 	
 	void Awake(){
-//		instance = this;
-//        placeData = new Dictionary<Vector3, BuildPlace> ();
-//        buildPlaces = new List<Transform>();
+		instance = this;
 	}
+	
+	public void OnBuildPlaceClicked(BuildPlace newBuildPlace)
+	{
+//		if(currentActiveBuildPlace != null) currentActiveBuildPlace.SetHighlightActive(false);
+//		currentActiveBuildPlace = newBuildPlace;
+//		newBuildPlace.SetHighlightActive(true);
+//		_buildTargetPos = newBuildPlace.transform.position;
+//		Vector3 screenPos = Camera.main.WorldToScreenPoint(_buildTargetPos);
+//		screenPos += BuildpoupOffset;
+//		_buildPopup.transform.position = new Vector3(screenPos.x, screenPos.y, screenPos.z);
+//		_buildPopup.SetActive(true);
+	}
+
+	public void Build(GameObject TowerPrefab)
+	{
+		Vector3 _buildPos = Vector3.zero;
+		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+		RaycastHit hit;
+		Physics.Raycast(ray, out hit, Mathf.Infinity, _buildLayerMask.value);
+		if (hit.collider != null)
+		{
+			_buildPos = hit.collider.transform.position;
+			hit.collider.GetComponent<BuildPlace>().SetHighlightActive(true);
+		}
+		newTower = Instantiate(TowerPrefab);
+		newTower.transform.position = _buildPos;
+		_currentBuildPos = _buildPos;
+		ShowBuildConfirm(true);
+	}
+
+	void ShowBuildConfirm(bool isActive)
+	{
+		if (isActive)
+		{
+			_isBuilding = true;
+			Vector3 Screenpos = Camera.main.WorldToScreenPoint(_currentBuildPos);
+			_buildConfirmPopup.transform.position = Screenpos;
+			_buildConfirmPopup.SetActive(true);
+		}
+		else
+		{
+			_isBuilding = false;
+			_buildConfirmPopup.SetActive(false);
+		}
+	}
+
+	public void OnBuildConfirm()
+	{
+		ShowBuildConfirm(false);
+	}
+
+	public void OnBuildCancel()
+	{
+		Destroy(newTower);
+		ShowBuildConfirm(false);
+	}
+	
+	
 
 	void Start(){
 //		for (int x = -(boardWidthInUnits/2); x < (boardWidthInUnits/2); x++) {

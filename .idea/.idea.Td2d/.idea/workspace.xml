@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0db34677-1d15-4ea3-978c-a3b17a88e495" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.Td2d/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Td2d/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/BuildLayerManager.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/BuildLayerManager.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/BuildPlace.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/BuildPlace.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Castle.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Castle.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Creep.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Creep.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/TouchCameraMovement.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/TouchCameraMovement.cs" />
-    </list>
+    <list default="true" id="0db34677-1d15-4ea3-978c-a3b17a88e495" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,8 +63,8 @@
       <file leaf-file-name="Baddy.cs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Baddy.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="100" lean-forward="false" selection-start-line="10" selection-start-column="100" selection-end-line="10" selection-end-column="100" />
+            <state relative-caret-position="119">
+              <caret line="7" column="34" lean-forward="true" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
               <folding>
                 <marker date="1506279221000" expanded="true" signature="6:100" ph="..." />
                 <marker date="1506279221000" expanded="true" signature="137:352" ph="{...}" />
@@ -471,8 +463,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Baddy.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="100" lean-forward="false" selection-start-line="10" selection-start-column="100" selection-end-line="10" selection-end-column="100" />
+        <state relative-caret-position="119">
+          <caret line="7" column="34" lean-forward="true" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
           <folding>
             <marker date="1506279221000" expanded="true" signature="6:100" ph="..." />
             <marker date="1506279221000" expanded="true" signature="137:352" ph="{...}" />
