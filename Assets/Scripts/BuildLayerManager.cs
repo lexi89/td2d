@@ -5,28 +5,17 @@ using UnityEngine;
 public class BuildLayerManager : MonoBehaviour {
 
 	public static BuildLayerManager instance;
+	public bool IsBuilding{get { return _isBuilding; }}
 	[SerializeField] LayerMask _buildLayerMask;
 	[SerializeField] GameObject _buildPopup;
-	[SerializeField] GameObject _buildConfirmPopup;
+//	[SerializeField] GameObject _buildConfirmPopup;
 	[SerializeField] Vector3 BuildpoupOffset;
-	GameObject newTower;
+	GameObject newTowerGO;
 	Vector3 _currentBuildPos;
 	bool _isBuilding;
 	
 	void Awake(){
 		instance = this;
-	}
-	
-	public void OnBuildPlaceClicked(BuildPlace newBuildPlace)
-	{
-//		if(currentActiveBuildPlace != null) currentActiveBuildPlace.SetHighlightActive(false);
-//		currentActiveBuildPlace = newBuildPlace;
-//		newBuildPlace.SetHighlightActive(true);
-//		_buildTargetPos = newBuildPlace.transform.position;
-//		Vector3 screenPos = Camera.main.WorldToScreenPoint(_buildTargetPos);
-//		screenPos += BuildpoupOffset;
-//		_buildPopup.transform.position = new Vector3(screenPos.x, screenPos.y, screenPos.z);
-//		_buildPopup.SetActive(true);
 	}
 
 	public void Build(GameObject TowerPrefab)
@@ -38,42 +27,25 @@ public class BuildLayerManager : MonoBehaviour {
 		if (hit.collider != null)
 		{
 			_buildPos = hit.collider.transform.position;
-			hit.collider.GetComponent<BuildPlace>().SetHighlightActive(true);
 		}
-		newTower = Instantiate(TowerPrefab);
-		newTower.transform.position = _buildPos;
+		newTowerGO = Instantiate(TowerPrefab);
+		newTowerGO.transform.position = _buildPos;
+		Tower newTower = newTowerGO.GetComponent<Tower>();
+		newTower.SetSelected(true);
+		newTower.ShowBuildConfirmUI();
 		_currentBuildPos = _buildPos;
-		ShowBuildConfirm(true);
 	}
 
-	void ShowBuildConfirm(bool isActive)
+	public void SetIsBuilding(bool isBuilding)
 	{
-		if (isActive)
-		{
-			_isBuilding = true;
-			Vector3 Screenpos = Camera.main.WorldToScreenPoint(_currentBuildPos);
-			_buildConfirmPopup.transform.position = Screenpos;
-			_buildConfirmPopup.SetActive(true);
-		}
-		else
-		{
-			_isBuilding = false;
-			_buildConfirmPopup.SetActive(false);
-		}
+		_isBuilding = isBuilding;
 	}
 
-	public void OnBuildConfirm()
+	void Update()
 	{
-		ShowBuildConfirm(false);
+		// if building, listen for clicks on the current building.
 	}
 
-	public void OnBuildCancel()
-	{
-		Destroy(newTower);
-		ShowBuildConfirm(false);
-	}
-	
-	
 
 	void Start(){
 //		for (int x = -(boardWidthInUnits/2); x < (boardWidthInUnits/2); x++) {

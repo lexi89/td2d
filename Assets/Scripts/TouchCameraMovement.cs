@@ -8,7 +8,9 @@ public class TouchCameraMovement : MonoBehaviour
 	Vector3 oldPos;
 	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate ()
+	{
+		if (BuildLayerManager.instance.IsBuilding) return;
 //		if (Input.GetMouseButtonDown(0))
 //		{
 //			

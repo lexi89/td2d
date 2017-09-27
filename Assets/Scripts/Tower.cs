@@ -1,13 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
-public class Tower : MonoBehaviour {
+public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler {
 
 	public static int widthInUnits;
 	public static int heightInUnits;
+	[SerializeField] GameObject _highlight;
+	[SerializeField] GameObject _buildConfirmUI;
+	[SerializeField] LayerMask _buildpLayerMask;
 
 	public GameObject attackProjectile;
 	public Sprite menuImage;
@@ -23,6 +25,7 @@ public class Tower : MonoBehaviour {
 	Material material;
 	Transform currentTarget;
 	List<Transform> potentialTargets;
+	bool _isSelected;
 
 	void Awake(){
 		material = GetComponent <MeshRenderer> ().material;
@@ -31,7 +34,7 @@ public class Tower : MonoBehaviour {
 	}
 
 	void OnEnable(){
-		GetComponent <NavMeshObstacle>().enabled = true;
+//		GetComponent <NavMeshObstacle>().enabled = true;
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -73,5 +76,74 @@ public class Tower : MonoBehaviour {
 	public void canPlace(){
 		material.color = originalColor;
 	}
+
+	public void SetSelected(bool isSelected)
+	{
+		if (isSelected)
+		{
+			_isSelected = true;
+			_highlight.SetActive(true);
+			// animate a little.
+		}
+		else
+		{
+			_isSelected = false;
+			_highlight.SetActive(false);
+		}
+	}
 	
+	public void OnBeginDrag(PointerEventData eventData)
+	{
+		if (_isSelected)
+		{
+			BuildLayerManager.instance.SetIsBuilding(true);
+		}
+		
+	}
+
+	public void OnDrag(PointerEventData eventData)
+	{
+		if (_isSelected)
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			Physics.Raycast(ray, out hit, Mathf.Infinity, _buildpLayerMask);
+			if (hit.collider != null)
+			{
+				if (transform.position == hit.collider.transform.position) return;
+				transform.position = hit.collider.transform.position;
+			}
+			// ray onto the buildplaces.
+
+		}
+	}
+	
+	public void OnPointerClick(PointerEventData eventData)
+	{
+		if (!_isSelected)
+		{
+			SetSelected(true);
+		}
+		else
+		{
+			
+		}
+		BuildLayerManager.instance.SetIsBuilding(false);
+	}
+
+
+	public void OnEndDrag(PointerEventData eventData)
+	{
+		BuildLayerManager.instance.SetIsBuilding(false);
+	}
+
+	public void OnPointerDown(PointerEventData eventData)
+	{
+		BuildLayerManager.instance.SetIsBuilding(true);
+	}
+
+	public void ShowBuildConfirmUI()
+	{
+		_buildConfirmUI.SetActive(true);
+	}
 }
