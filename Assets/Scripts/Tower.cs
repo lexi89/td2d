@@ -10,8 +10,8 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	[SerializeField] GameObject _highlight;
 	[SerializeField] GameObject _buildConfirmUI;
 	[SerializeField] LayerMask _buildpLayerMask;
-
-	public GameObject attackProjectile;
+	[SerializeField] GameObject attackProjectile;
+	[SerializeField] Transform _turret;
 	public Sprite menuImage;
 	public Sprite level1;
 	public Sprite level2;
@@ -20,16 +20,11 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	public float attackSpeedInSeconds;
 	public float attackDamage;
 	float nextAttackTime = 0.0f;
-
-	Color originalColor;
-	Material material;
 	Transform currentTarget;
 	List<Transform> potentialTargets;
 	bool _isSelected;
 
 	void Awake(){
-		material = GetComponent <MeshRenderer> ().material;
-		originalColor = material.color;
 		potentialTargets = new List<Transform> ();
 	}
 
@@ -49,9 +44,11 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 
 	void Update(){
 		if(potentialTargets.Count > 0){
+			_turret.LookAt(potentialTargets[0]);
 			for (int i = 0; i < potentialTargets.Count; i++) {
 				if(potentialTargets[i] != null){
 					Attack (potentialTargets[i]);
+					
 				} else {
 					// target died in the previous frame.
 					potentialTargets.RemoveAt (i);
@@ -63,18 +60,13 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	public void Attack(Transform target){
 		if(Time.time > nextAttackTime){
 			nextAttackTime = Time.time + attackSpeedInSeconds;
-			GameObject newProjectile = Instantiate (attackProjectile, transform.position, Quaternion.identity) as GameObject;
+			// TODO: make the projectiles look at the target...
+			GameObject newProjectile = Instantiate (attackProjectile, transform.position, Quaternion.identity);
+			newProjectile.transform.LookAt(potentialTargets[0]);
+//			newProjectile.transform.LookAt();
 			newProjectile.transform.position = new Vector3 (transform.position.x, 1.5f, transform.position.z);
 			newProjectile.GetComponent <Projectile>().fire (target);
 		}
-	}
-
-	public void cantPlace(){
-		material.color = Color.red;
-	}
-
-	public void canPlace(){
-		material.color = originalColor;
 	}
 
 	public void SetSelected(bool isSelected)
@@ -120,15 +112,8 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		if (!_isSelected)
-		{
-			SetSelected(true);
-		}
-		else
-		{
-			
-		}
-		BuildLayerManager.instance.SetIsBuilding(false);
+		BuildLayerManager.instance.OnTowerSelected(this);		
+//		BuildLayerManager.instance.SetIsBuilding(false);
 	}
 
 
@@ -139,11 +124,23 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		BuildLayerManager.instance.SetIsBuilding(true);
+//		BuildLayerManager.instance.SetIsBuilding(true);
 	}
 
 	public void ShowBuildConfirmUI()
 	{
 		_buildConfirmUI.SetActive(true);
+	}
+
+	public void OnBuildConfirm()
+	{
+//		BuildLayerManager.instance.SetIsBuilding(false);
+		SetSelected(false);
+		_buildConfirmUI.SetActive(false);
+	}
+
+	public void OnBuildCancel()
+	{
+		Destroy(this);
 	}
 }

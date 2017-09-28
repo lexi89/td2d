@@ -10,6 +10,7 @@ public class BuildLayerManager : MonoBehaviour {
 	[SerializeField] GameObject _buildPopup;
 //	[SerializeField] GameObject _buildConfirmPopup;
 	[SerializeField] Vector3 BuildpoupOffset;
+	Tower _currentSelectedTower;
 	GameObject newTowerGO;
 	Vector3 _currentBuildPos;
 	bool _isBuilding;
@@ -39,6 +40,23 @@ public class BuildLayerManager : MonoBehaviour {
 	public void SetIsBuilding(bool isBuilding)
 	{
 		_isBuilding = isBuilding;
+	}
+
+	public void OnEmptyBuildPlaceClicked()
+	{
+		_isBuilding = false;
+		_currentSelectedTower.SetSelected(false);
+	}
+
+	public void OnTowerSelected(Tower newTowerSelected)
+	{
+//		SetIsBuilding(true);
+		if (_currentSelectedTower != null)
+		{
+			_currentSelectedTower.SetSelected(false);
+		}
+		_currentSelectedTower = newTowerSelected;
+		_currentSelectedTower.SetSelected(true);
 	}
 
 	void Update()

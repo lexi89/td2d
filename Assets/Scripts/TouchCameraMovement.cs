@@ -10,7 +10,10 @@ public class TouchCameraMovement : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate ()
 	{
-		if (BuildLayerManager.instance.IsBuilding) return;
+		if (BuildLayerManager.instance.IsBuilding)
+		{
+			return;
+		}
 //		if (Input.GetMouseButtonDown(0))
 //		{
 //			

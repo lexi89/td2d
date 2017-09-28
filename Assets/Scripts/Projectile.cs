@@ -31,7 +31,16 @@ public class Projectile : MonoBehaviour {
 			}
 		}
 	}
-		
+
+	void OnCollisionEnter(Collision other)
+	{
+		if (other.gameObject.CompareTag("Creep"))
+		{
+			other.gameObject.GetComponent<Creep>().TakeDamage(damage);
+		}
+		Destroy (gameObject);
+	}
+
 	void OnTriggerEnter(Collider col){
 		_isFlying = false;
 		if(col.tag == "Creep" && col.gameObject.activeSelf){

@@ -8,7 +8,7 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 	NavMeshAgent agent;
 	public float health;
 	public GameObject DamageNoticePrefab;
-	public Canvas NoticeCanvas;
+	[SerializeField] Canvas _uiCanvas;
 
 	public float minCoins;
 	public float maxCoins;
@@ -32,7 +32,7 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 		if (health < 0){
 			Die ();
 		} else{
-			GameObject newNotice = Instantiate (DamageNoticePrefab, NoticeCanvas.transform, false) as GameObject;
+			GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false);
 			newNotice.GetComponent <EffectNotice>().showDamageTaken (damageTaken);
 		}
 
@@ -42,9 +42,9 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 		//  play die animation.
 		agent.enabled = false;
 		GameController.Instance.onCreepKilled ();
-		GetComponent <BoxCollider>().enabled = false;
-		GetComponent <MeshRenderer>().enabled = false;
-		DropsController.instance.DropCoins (Camera.main.WorldToScreenPoint (transform.position), _numberOfCoinsToDrop);
+//		GetComponent <BoxCollider>().enabled = false;
+//		GetComponent <MeshRenderer>().enabled = false;
+//		DropsController.instance.DropCoins (Camera.main.WorldToScreenPoint (transform.position), _numberOfCoinsToDrop);
 		Destroy (gameObject);
 	}
 		
