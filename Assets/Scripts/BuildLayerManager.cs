@@ -14,6 +14,7 @@ public class BuildLayerManager : MonoBehaviour {
 	GameObject newTowerGO;
 	Vector3 _currentBuildPos;
 	bool _isBuilding;
+	bool _isOnBuildConfirm;
 	
 	void Awake(){
 		instance = this;
@@ -32,9 +33,16 @@ public class BuildLayerManager : MonoBehaviour {
 		newTowerGO = Instantiate(TowerPrefab);
 		newTowerGO.transform.position = _buildPos;
 		Tower newTower = newTowerGO.GetComponent<Tower>();
+		_currentSelectedTower = newTower;
 		newTower.SetSelected(true);
 		newTower.ShowBuildConfirmUI();
 		_currentBuildPos = _buildPos;
+		_isOnBuildConfirm = true;
+	}
+
+	public void OnBuildConfirm()
+	{
+		_isOnBuildConfirm = false;
 	}
 
 	public void SetIsBuilding(bool isBuilding)
@@ -44,13 +52,13 @@ public class BuildLayerManager : MonoBehaviour {
 
 	public void OnEmptyBuildPlaceClicked()
 	{
+		if (_isOnBuildConfirm) return;
 		_isBuilding = false;
-		_currentSelectedTower.SetSelected(false);
+		if(_currentSelectedTower != null) _currentSelectedTower.SetSelected(false);
 	}
 
 	public void OnTowerSelected(Tower newTowerSelected)
 	{
-//		SetIsBuilding(true);
 		if (_currentSelectedTower != null)
 		{
 			_currentSelectedTower.SetSelected(false);

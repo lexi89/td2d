@@ -21,14 +21,17 @@ public class Projectile : MonoBehaviour {
 		if(_isFlying){
 			if(_target != null){
 				transform.LookAt (_target.position);
-				transform.position = Vector3.Lerp (transform.position, _target.position, speed);	
-			} else {
-				if(Vector3.Distance (transform.position, _targetOrginalPos) < 0.5f){
-					Destroy (gameObject);
-				} else{
-					transform.position = Vector3.Lerp (transform.position, _targetOrginalPos, speed);	
-				}
-			}
+				iTween.MoveUpdate(gameObject, _target.position, 1f);
+//				transform.position = Vector3.Lerp (transform.position, _target.position, speed);	
+			} 
+//			
+//			else {
+//				if(Vector3.Distance (transform.position, _targetOrginalPos) < 0.5f){
+//					Destroy (gameObject);
+//				} else{
+//					transform.position = Vector3.Lerp (transform.position, _targetOrginalPos, speed);	
+//				}
+//			}
 		}
 	}
 

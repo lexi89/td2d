@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -12,6 +13,7 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	[SerializeField] LayerMask _buildpLayerMask;
 	[SerializeField] GameObject attackProjectile;
 	[SerializeField] Transform _turret;
+	[SerializeField] SphereCollider _attackDetector;
 	public Sprite menuImage;
 	public Sprite level1;
 	public Sprite level2;
@@ -19,12 +21,15 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	[Range(0f, 5f)]
 	public float attackSpeedInSeconds;
 	public float attackDamage;
-	float nextAttackTime = 0.0f;
+	float nextAttackTime;
 	Transform currentTarget;
 	List<Transform> potentialTargets;
 	bool _isSelected;
+	bool _isBuilt;	
 
-	void Awake(){
+	void Awake()
+	{
+		_attackDetector.enabled = false;
 		potentialTargets = new List<Transform> ();
 	}
 
@@ -32,27 +37,37 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 //		GetComponent <NavMeshObstacle>().enabled = true;
 	}
 
-	void OnTriggerEnter(Collider other){
-		if(other.gameObject.tag == "Creep"){
-			potentialTargets.Add (other.transform);
+	public void OnEnemyRangeEnter(Transform enemy)
+	{
+		if (_isBuilt)
+		{
+			potentialTargets.Add(enemy);	
 		}
 	}
 
-	void OnTriggerExit(Collider other){
-		potentialTargets.Remove (other.transform);
+	public void OnEnemyRangeLeave(Transform enemy)
+	{
+		if (_isBuilt)
+		{
+			potentialTargets.Remove(enemy);	
+		}
 	}
 
 	void Update(){
-		if(potentialTargets.Count > 0){
-			_turret.LookAt(potentialTargets[0]);
-			for (int i = 0; i < potentialTargets.Count; i++) {
-				if(potentialTargets[i] != null){
-					Attack (potentialTargets[i]);
-					
-				} else {
-					// target died in the previous frame.
-					potentialTargets.RemoveAt (i);
-				}
+		if (!_isBuilt) return;
+		if (potentialTargets.Count <= 0) return;
+		if (potentialTargets[0] != null)
+		{
+			iTween.LookUpdate(_turret.gameObject, potentialTargets[0].transform.position, 1f);		
+		}
+//			iTween.LookTo(_turret.gameObject, potentialTargets[0].transform.position, 0.5f);
+//			_turret.LookAt(potentialTargets[0]);
+		for (int i = 0; i < potentialTargets.Count; i++) {
+			if(potentialTargets[i] != null){
+				Attack (potentialTargets[i]);
+			} else {
+				// target died in the previous frame.
+				potentialTargets.RemoveAt (i);
 			}
 		}
 	}
@@ -64,7 +79,7 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 			GameObject newProjectile = Instantiate (attackProjectile, transform.position, Quaternion.identity);
 			newProjectile.transform.LookAt(potentialTargets[0]);
 //			newProjectile.transform.LookAt();
-			newProjectile.transform.position = new Vector3 (transform.position.x, 1.5f, transform.position.z);
+			newProjectile.transform.position = new Vector3 (transform.position.x, 1f, transform.position.z);
 			newProjectile.GetComponent <Projectile>().fire (target);
 		}
 	}
@@ -106,16 +121,13 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 				transform.position = hit.collider.transform.position;
 			}
 			// ray onto the buildplaces.
-
 		}
 	}
 	
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		BuildLayerManager.instance.OnTowerSelected(this);		
-//		BuildLayerManager.instance.SetIsBuilding(false);
 	}
-
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
@@ -126,21 +138,26 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	{
 //		BuildLayerManager.instance.SetIsBuilding(true);
 	}
-
+    
 	public void ShowBuildConfirmUI()
 	{
 		_buildConfirmUI.SetActive(true);
+		BuildLayerManager.instance.SetIsBuilding(true);
 	}
 
 	public void OnBuildConfirm()
 	{
-//		BuildLayerManager.instance.SetIsBuilding(false);
+		_attackDetector.enabled = true;
 		SetSelected(false);
 		_buildConfirmUI.SetActive(false);
+		_isBuilt = true;
+		BuildLayerManager.instance.SetIsBuilding(false);
+		BuildLayerManager.instance.OnBuildConfirm();
 	}
 
 	public void OnBuildCancel()
 	{
-		Destroy(this);
+		BuildLayerManager.instance.SetIsBuilding(false);
+		Destroy(gameObject);
 	}
 }
