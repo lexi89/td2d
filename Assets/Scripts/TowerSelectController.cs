@@ -12,10 +12,10 @@ public class TowerSelectController : MonoBehaviour {
 	public GameObject towerButtonPrefab;
 	public Plane ground;
 	public float YOffset;
-	public bool IsBuilding{
-		get{ return _isBuilding;}
-	}
-	bool _isBuilding;
+//	public bool IsBuilding{
+//		get{ return _isBuilding;}
+//	}
+//	bool _isBuilding;
 	GameObject towerSelected;
 	[SerializeField]
 	List<GameObject> towers;

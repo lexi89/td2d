@@ -140,12 +140,18 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		BuildLayerManager.instance.OnTowerSelected(this);		
+		if (!_isSelected)
+		{
+			BuildLayerManager.instance.OnTowerSelected(this);	
+		}
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-		BuildLayerManager.instance.SetIsBuilding(false);
+		if (!_isSelected)
+		{
+			BuildLayerManager.instance.SetIsBuilding(false);	
+		}
 	}
 
 	public void OnPointerDown(PointerEventData eventData)

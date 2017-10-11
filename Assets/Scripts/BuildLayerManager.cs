@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BuildLayerManager : MonoBehaviour {
 
@@ -8,8 +6,8 @@ public class BuildLayerManager : MonoBehaviour {
 	public bool IsBuilding{get { return _isBuilding; }}
 	[SerializeField] LayerMask _buildLayerMask;
 	[SerializeField] GameObject _buildPopup;
-//	[SerializeField] GameObject _buildConfirmPopup;
 	[SerializeField] Vector3 BuildpoupOffset;
+	[SerializeField] GameObject _buildArrows;
 	Tower _currentSelectedTower;
 	GameObject newTowerGO;
 	Vector3 _currentBuildPos;
@@ -45,6 +43,8 @@ public class BuildLayerManager : MonoBehaviour {
 	public void OnBuildConfirm()
 	{
 		_isOnBuildConfirm = false;
+		_buildArrows.SetActive(false);
+		_buildArrows.transform.SetParent(transform.parent, true);
 	}
 
 	public void SetIsBuilding(bool isBuilding)
@@ -57,6 +57,8 @@ public class BuildLayerManager : MonoBehaviour {
 		if (_isOnBuildConfirm) return;
 		_isBuilding = false;
 		if(_currentSelectedTower != null) _currentSelectedTower.SetSelected(false);
+		_buildArrows.SetActive(false);
+		_buildArrows.transform.SetParent(transform.parent, true);
 	}
 
 	public void OnTowerSelected(Tower newTowerSelected)
@@ -67,6 +69,9 @@ public class BuildLayerManager : MonoBehaviour {
 		}
 		_currentSelectedTower = newTowerSelected;
 		_currentSelectedTower.SetSelected(true);
+		_buildArrows.transform.position = new Vector3(_currentSelectedTower.transform.position.x, 0.01f, _currentSelectedTower.transform.position.z);
+		_buildArrows.transform.SetParent(_currentSelectedTower.transform, true);
+		_buildArrows.SetActive(true);
 	}
 
 	void Update()

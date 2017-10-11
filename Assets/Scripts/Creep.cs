@@ -13,7 +13,7 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 
 	public float minCoins;
 	public float maxCoins;
-	int _numberOfCoinsToDrop;
+//	int _numberOfCoinsToDrop;
 
 	void Awake(){
 		agent = GetComponent <NavMeshAgent> ();
@@ -21,7 +21,7 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 
 	void Start(){
 		agent.SetDestination (GameController.Instance.Castle.position);
-		_numberOfCoinsToDrop = (int)Random.Range (minCoins, maxCoins);
+//		_numberOfCoinsToDrop = (int)Random.Range (minCoins, maxCoins);
 	}
 
 //	void OnDestroy(){
