@@ -6,6 +6,5 @@ public class Castle : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		Destroy (other.gameObject);
-		GameController.Instance.onCastleHit ();
 	}
 }

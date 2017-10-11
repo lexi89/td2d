@@ -33,6 +33,8 @@ public class BuildLayerManager : MonoBehaviour {
 		newTowerGO = Instantiate(TowerPrefab);
 		newTowerGO.transform.position = _buildPos;
 		Tower newTower = newTowerGO.GetComponent<Tower>();
+		OnTowerSelected(newTower);
+		newTower.SetGhostMode(true);
 		_currentSelectedTower = newTower;
 		newTower.SetSelected(true);
 		newTower.ShowBuildConfirmUI();

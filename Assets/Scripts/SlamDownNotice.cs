@@ -1,27 +1,28 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class SlamDownNotice : MonoBehaviour {
 
-	Text text;
-	[SerializeField] float displayDuration;
-
-	void Awake(){
-		text = GetComponent <Text> ();
+	public TMP_Text Text;
+	[SerializeField] float _displayDuration;
+	
+	public void SlamDown()
+	{
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (4f,4f,4f), "time", 0.2f, "oncomplete", "OnSlamDown", "easetype", iTween.EaseType.easeInCirc));
+	}
+	
+	void OnSlamDown(){
+		StartCoroutine (PauseAndShrink());
 	}
 
-	void OnEnable(){
-		text.enabled = true;
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (4f,4f,4f), "time", 0.2f, "oncomplete", "OnDone", "easetype", iTween.EaseType.easeInCirc));
+	IEnumerator PauseAndShrink(){
+		yield return new WaitForSeconds (_displayDuration);
+		iTween.ScaleTo(gameObject, iTween.Hash ("scale", new Vector3 (0f,0f,0f), "time", 0.2f, "oncomplete", "OnShrunk", "easetype", iTween.EaseType.easeInCirc));
 	}
-
-	void OnDone(){
-		StartCoroutine ("HangBeforeDestroying");
-	}
-
-	IEnumerator HangBeforeDestroying(){
-		yield return new WaitForSeconds (displayDuration);
-		text.enabled = false;
-		enabled = false;
+	
+	void OnShrunk()
+	{
+		Destroy(gameObject);
 	}
 }

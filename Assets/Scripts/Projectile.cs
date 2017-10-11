@@ -1,17 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-	public float speed;
-	public float damage;
-	public GameObject ExplosionPrefab;
+	public float SecondsToTarget;
+	public float Damage;
+//	public GameObject ExplosionPrefab;
 	public bool _isFlying;
 	Transform _target;
 	Vector3 _targetOrginalPos;
+	
 
-	public void fire(Transform newTarget){
+	public void fire(Transform newTarget)
+	{
+		
 		_target = newTarget;
 		_targetOrginalPos = newTarget.position;
 		_isFlying = true;
@@ -19,19 +20,23 @@ public class Projectile : MonoBehaviour {
 
 	void Update(){
 		if(_isFlying){
-			if(_target != null){
-				transform.LookAt (_target.position);
-				iTween.MoveUpdate(gameObject, _target.position, 1f);
+			if (_target != null)
+			{
+				transform.LookAt(_target.position);
+				iTween.MoveUpdate(gameObject, _target.position, SecondsToTarget);
 //				transform.position = Vector3.Lerp (transform.position, _target.position, speed);	
-			} 
-//			
-//			else {
-//				if(Vector3.Distance (transform.position, _targetOrginalPos) < 0.5f){
-//					Destroy (gameObject);
-//				} else{
-//					transform.position = Vector3.Lerp (transform.position, _targetOrginalPos, speed);	
-//				}
-//			}
+			}
+			else
+			{
+				// fly to the target original pos and self destruct
+//				gameObject.AddComponent<Rigidbody>();
+				transform.LookAt(_targetOrginalPos);
+				iTween.MoveUpdate(gameObject, _targetOrginalPos, SecondsToTarget);
+				if (Vector3.Distance(transform.position, _targetOrginalPos) < 1f)
+				{
+					Destroy(gameObject);
+				}
+			}
 		}
 	}
 
@@ -39,7 +44,7 @@ public class Projectile : MonoBehaviour {
 	{
 		if (other.gameObject.CompareTag("Creep"))
 		{
-			other.gameObject.GetComponent<Creep>().TakeDamage(damage);
+			other.gameObject.GetComponent<Creep>().TakeDamage(Damage);
 		}
 		Destroy (gameObject);
 	}
@@ -47,14 +52,15 @@ public class Projectile : MonoBehaviour {
 	void OnTriggerEnter(Collider col){
 		_isFlying = false;
 		if(col.tag == "Creep" && col.gameObject.activeSelf){
-			if(ExplosionPrefab != null){
-				GetComponent <MeshRenderer>().enabled = false;
-				GetComponent <BoxCollider>().enabled = false;
-				Instantiate (ExplosionPrefab, transform, false);
-			} else{
-				Destroy (gameObject);	
-			}
-			col.gameObject.GetComponent <Creep> ().TakeDamage (damage);
+//			if(ExplosionPrefab != null){
+//				GetComponent <MeshRenderer>().enabled = false;
+//				GetComponent <BoxCollider>().enabled = false;
+//				Instantiate (ExplosionPrefab, transform, false);
+//			} else{
+//					
+//			}
+			Destroy (gameObject);
+			col.gameObject.GetComponent <Creep> ().TakeDamage (Damage);
 		}
 	}
 }

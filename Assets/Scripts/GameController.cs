@@ -1,79 +1,85 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour {
 
 	public static GameController Instance;
+	public Camera MainCamera;
 	public Transform Castle;
-	public Transform SpawnPoint;
-	public GameObject CreepPrefab;
-	public Text waveCountUIText;
-	public Text waveNoticeText;
-	public List<Wave> waves;
-	int waveCount;
-	int numberOfCreepsToSpawn;
-	int numberOfCreepsSpawned;
-	int numberOfCreepsKilled;
+	[SerializeField] Canvas UICanvas;
+	[SerializeField] GameObject CBTprefab;
+	[SerializeField] float CBTYoffset;
+	[SerializeField] GameObject SlamDownNoticePrefab;
+	[SerializeField] WaveManager _waveManager;
+
+//	public Text waveCountUIText;
+	public TMP_Text waveNoticeText;
+	public int Difficulty{get { return _difficulty; }}
+	int _difficulty;
 
 	void Awake(){
 		Instance = this;
 	}
 
-	void Start(){
-		waveCount = -1;
-		StartCoroutine ("nextWave");
+	void Start()
+	{
+		_difficulty = 0;
+		StartCoroutine(NextWave());
 	}
 
-	void nextWave(){
-		waveCount++;
-		if(waveCount < waves.Count){
-			StartCoroutine ("StartSpawningNextWave");
-		} else{
-			print ("game over");
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			StartCoroutine(NextWave());
 		}
 	}
 
-	IEnumerator StartSpawningNextWave(){
-		string waveCountString = string.Concat ("Wave: ", (waveCount + 1).ToString ());
-		waveCountUIText.text = waveCountString;
-		waveNoticeText.text = waveCountString;
-		showWaveNotice ();
+	public void DisplayCBT(string text, Vector3 pos)
+	{
+		GameObject CBTGO = Instantiate(CBTprefab, UICanvas.transform);
+		CBTGO.GetComponent<TMP_Text>().text = text;
+		Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
+		screenPos.y += CBTYoffset;
+		CBTGO.transform.position = screenPos;
+	}
+
+	IEnumerator NextWave()
+	{
+		_difficulty++;
+		GameObject newSlamNotice = Instantiate(SlamDownNoticePrefab, UICanvas.transform);
+		SlamDownNotice sdn = newSlamNotice.GetComponent<SlamDownNotice>();
+		sdn.Text.text = string.Concat ("Wave: ", _difficulty.ToString ());
+		sdn.SlamDown();
 		yield return new WaitForSeconds (2f);
-		numberOfCreepsToSpawn = waves [waveCount].numberOfCreeps;
-		numberOfCreepsSpawned = 0;
-		numberOfCreepsKilled = 0;
-		InvokeRepeating ("SpawnCreep", 0f, waves[waveCount].delayBetweenSpawns);		
+		_waveManager.SpawnWave();		
 	}
 
-	void SpawnCreep(){
-		if(numberOfCreepsSpawned < waves[waveCount].numberOfCreeps){			
-			Instantiate (CreepPrefab, SpawnPoint.position, Quaternion.Euler (0f,90f,0f));
-			numberOfCreepsSpawned++;
-		} else {
-			CancelInvoke ();
-		}
-	}
+//	void SpawnCreep(){
+//		if(numberOfCreepsSpawned < waves[waveCount].numberOfCreeps){			
+//			Instantiate (CreepPrefab, SpawnPoint.position, Quaternion.Euler (0f,90f,0f));
+//			numberOfCreepsSpawned++;
+//		} else {
+//			CancelInvoke ();
+//		}
+//	}
+//
+//	public void onCastleHit(){
+//		numberOfCreepsKilled++;
+//	}
+//
+//	public void onCreepKilled(){
+//		numberOfCreepsKilled++;
+//		if(numberOfCreepsKilled == numberOfCreepsToSpawn){
+//			StartCoroutine ("WaveComplete");
+//		}
+//	}
+//
+//	IEnumerator WaveComplete(){
+//		// show end of level rewards;
+//		yield return new WaitForSeconds (2f);
+//		nextWave ();
+//	}
 
-	public void onCastleHit(){
-		numberOfCreepsKilled++;
-	}
-
-	public void onCreepKilled(){
-		numberOfCreepsKilled++;
-		if(numberOfCreepsKilled == numberOfCreepsToSpawn){
-			StartCoroutine ("WaveComplete");
-		}
-	}
-
-	IEnumerator WaveComplete(){
-		// show end of level rewards;
-		yield return new WaitForSeconds (2f);
-		nextWave ();
-	}
-
-	void showWaveNotice(){
-		waveNoticeText.GetComponent <SlamDownNotice> ().enabled = true;
-	}
 }
