@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Creep : MonoBehaviour, IDamageable, IKillable {
-
-	NavMeshAgent agent;
+public class Creep : MonoBehaviour, IDamageable
+{
+	public WaveManager WaveManager;
+	public Wave Wave;
 	public float health;
-	public int WaveID;
 	public GameObject DamageNoticePrefab;
+	public float AttackingDistance;
 	[SerializeField] Canvas _uiCanvas;
-
-	public float minCoins;
-	public float maxCoins;
-//	int _numberOfCoinsToDrop;
-
+//	public float minCoins;
+//	public float maxCoins;
+	NavMeshAgent agent;
+	
 	void Awake(){
 		agent = GetComponent <NavMeshAgent> ();
 	}
@@ -30,8 +30,9 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 
 	public void TakeDamage(float damageTaken){
 		health -= damageTaken;
-		if (health < 0){
-			Die ();
+		if (health < 0)
+		{
+			StartCoroutine(Die());
 		} else{
 			GameController.Instance.DisplayCBT(damageTaken.ToString(), transform.position);
 //			GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false);
@@ -40,9 +41,11 @@ public class Creep : MonoBehaviour, IDamageable, IKillable {
 
 	}
 		
-	public void Die(){
+	IEnumerator Die(){
 		//  play die animation.
 		agent.enabled = false;
+		WaveManager.OnCreepDeath(this);
+		yield return new WaitForEndOfFrame();
 //		GameController.Instance.onCreepKilled ();
 //		GetComponent <BoxCollider>().enabled = false;
 //		GetComponent <MeshRenderer>().enabled = false;

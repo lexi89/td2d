@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 
-public interface IKillable
-{
-	void Die();
-}
+//public interface IKillable
+//{
+//	void Die();
+//}
 
 public interface IDamageable
 {

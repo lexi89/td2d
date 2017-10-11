@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour {
 	[SerializeField] Canvas UICanvas;
 	[SerializeField] GameObject CBTprefab;
 	[SerializeField] float CBTYoffset;
-	[SerializeField] GameObject SlamDownNoticePrefab;
+	
 	[SerializeField] WaveManager _waveManager;
 
 //	public Text waveCountUIText;
@@ -25,15 +25,7 @@ public class GameController : MonoBehaviour {
 	void Start()
 	{
 		_difficulty = 0;
-		StartCoroutine(NextWave());
-	}
-
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			StartCoroutine(NextWave());
-		}
+		StartCoroutine(_waveManager.NextWave());
 	}
 
 	public void DisplayCBT(string text, Vector3 pos)
@@ -45,16 +37,13 @@ public class GameController : MonoBehaviour {
 		CBTGO.transform.position = screenPos;
 	}
 
-	IEnumerator NextWave()
+	public void IncrementDifficulty()
 	{
 		_difficulty++;
-		GameObject newSlamNotice = Instantiate(SlamDownNoticePrefab, UICanvas.transform);
-		SlamDownNotice sdn = newSlamNotice.GetComponent<SlamDownNotice>();
-		sdn.Text.text = string.Concat ("Wave: ", _difficulty.ToString ());
-		sdn.SlamDown();
-		yield return new WaitForSeconds (2f);
-		_waveManager.SpawnWave();		
 	}
+
+
+	
 
 //	void SpawnCreep(){
 //		if(numberOfCreepsSpawned < waves[waveCount].numberOfCreeps){			

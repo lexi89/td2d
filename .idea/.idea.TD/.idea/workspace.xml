@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c77d9e49-89ee-4e34-8c72-34f63ff712ec" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/BuildLayerManager.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/BuildLayerManager.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Towers/CrossBow.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Towers/CrossBow.prefab" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Creep.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Creep.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Tower.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Tower.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/TowerSelectController.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/TowerSelectController.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Interfaces.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Interfaces.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/WaveManager.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/WaveManager.cs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -71,22 +72,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Creep.cs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Creep.cs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Creep.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+            <state relative-caret-position="326">
+              <caret line="24" column="5" lean-forward="false" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
               <folding>
-                <marker date="1507755104000" expanded="false" signature="6:100" ph="..." />
-                <marker date="1507755104000" expanded="true" signature="161:1401" ph="{...}" />
-                <marker date="1507755104000" expanded="true" signature="394:440" ph="{...}" />
-                <marker date="1507755104000" expanded="true" signature="455:592" ph="{...}" />
-                <marker date="1507755104000" expanded="true" signature="594:665" ph="/* void OnDestroy(){ ... */" />
-                <marker date="1507755104000" expanded="true" signature="709:1032" ph="{...}" />
-                <marker date="1507755104000" expanded="true" signature="753:769" ph="{...}" />
-                <marker date="1507755104000" expanded="true" signature="859:1024" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
-                <marker date="1507755104000" expanded="true" signature="1054:1396" ph="{...}" />
-                <marker date="1507755104000" expanded="true" signature="1107:1369" ph="/* GameController.Instance.onCreepKilled (); ... */" />
+                <marker date="1507758239000" expanded="false" signature="6:100" ph="..." />
+                <marker date="1507758239000" expanded="true" signature="149:1521" ph="{...}" />
+                <marker date="1507758239000" expanded="true" signature="334:385" ph="/* public float minCoins; ... */" />
+                <marker date="1507758239000" expanded="true" signature="422:468" ph="{...}" />
+                <marker date="1507758239000" expanded="true" signature="483:620" ph="{...}" />
+                <marker date="1507758239000" expanded="true" signature="622:693" ph="/* void OnDestroy(){ ... */" />
+                <marker date="1507758239000" expanded="true" signature="737:1078" ph="{...}" />
+                <marker date="1507758239000" expanded="true" signature="781:815" ph="{...}" />
+                <marker date="1507758239000" expanded="true" signature="905:1070" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
+                <marker date="1507758239000" expanded="true" signature="1100:1516" ph="{...}" />
+                <marker date="1507758239000" expanded="true" signature="1227:1489" ph="/* GameController.Instance.onCreepKilled (); ... */" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Interfaces.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Interfaces.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="3" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="5" selection-end-column="3" />
+              <folding>
+                <marker date="1507757392000" expanded="true" signature="27:78" ph="/* public interface IKillable ... */" />
+                <marker date="1507757392000" expanded="true" signature="108:149" ph="{...}" />
+                <marker date="1507757392000" expanded="true" signature="176:260" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -95,25 +111,32 @@
       <file leaf-file-name="WaveManager.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/WaveManager.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+            <state relative-caret-position="969">
+              <caret line="57" column="33" lean-forward="false" selection-start-line="57" selection-start-column="33" selection-end-line="57" selection-end-column="33" />
               <folding>
-                <marker date="1507744738000" expanded="false" signature="6:78" ph="..." />
-                <marker date="1507744738000" expanded="true" signature="120:912" ph="{...}" />
-                <marker date="1507744738000" expanded="true" signature="360:543" ph="{...}" />
-                <marker date="1507744738000" expanded="true" signature="595:910" ph="{...}" />
-                <marker date="1507744738000" expanded="true" signature="665:904" ph="{...}" />
-                <marker date="1507744738000" expanded="true" signature="932:1077" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="6:78" ph="..." />
+                <marker date="1507758082000" expanded="true" signature="120:2195" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="347:410" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="433:550" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="484:544" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="583:905" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="957:1437" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="1027:1431" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="1484:1733" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="1615:1727" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="1772:2193" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="2214:2583" ph="{...}" />
+                <marker date="1507758082000" expanded="true" signature="2456:2581" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BuildLayerManager.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BuildLayerManager.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/BuildLayerManager.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="326">
-              <caret line="74" column="5" lean-forward="true" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
+              <caret line="74" column="5" lean-forward="false" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
               <folding>
                 <marker date="1507756484000" expanded="true" signature="67:5069" ph="{...}" />
                 <marker date="1507756484000" expanded="true" signature="479:502" ph="{...}" />
@@ -168,18 +191,16 @@
       <file leaf-file-name="GameController.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/GameController.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="32" column="42" lean-forward="false" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
+            <state relative-caret-position="358">
+              <caret line="27" column="46" lean-forward="false" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
               <folding>
-                <marker date="1507744041000" expanded="false" signature="6:57" ph="..." />
-                <marker date="1507744041000" expanded="true" signature="103:2020" ph="{...}" />
-                <marker date="1507744041000" expanded="true" signature="555:578" ph="{...}" />
-                <marker date="1507744041000" expanded="true" signature="593:648" ph="{...}" />
-                <marker date="1507744041000" expanded="true" signature="664:748" ph="{...}" />
-                <marker date="1507744041000" expanded="true" signature="706:745" ph="{...}" />
-                <marker date="1507744041000" expanded="true" signature="799:1044" ph="{...}" />
-                <marker date="1507744041000" expanded="true" signature="1069:1402" ph="{...}" />
-                <marker date="1507744041000" expanded="true" signature="1404:2017" ph="/* void SpawnCreep(){ ... */" />
+                <marker date="1507758025000" expanded="false" signature="6:57" ph="..." />
+                <marker date="1507758025000" expanded="true" signature="103:1589" ph="{...}" />
+                <marker date="1507758025000" expanded="true" signature="506:529" ph="{...}" />
+                <marker date="1507758025000" expanded="true" signature="544:612" ph="{...}" />
+                <marker date="1507758025000" expanded="true" signature="663:908" ph="{...}" />
+                <marker date="1507758025000" expanded="true" signature="944:967" ph="{...}" />
+                <marker date="1507758025000" expanded="true" signature="973:1586" ph="/* void SpawnCreep(){ ... */" />
               </folding>
             </state>
           </provider>
@@ -223,6 +244,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Interfaces.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BuildPlace.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TouchCameraMovement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TowerAttackRange.cs" root0="FORCE_HIGHLIGHTING" />
@@ -260,13 +282,14 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Wave.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Castle.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/SlamDownNotice.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/WaveManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BuildPlace.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Creep.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TowerSelectController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Tower.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BuildLayerManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Interfaces.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/WaveManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Creep.cs" />
       </list>
     </option>
   </component>
@@ -398,13 +421,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Projectile.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="23" column="65" lean-forward="false" selection-start-line="23" selection-start-column="65" selection-end-line="23" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/TouchCameraMovement.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -448,16 +464,17 @@
         <state relative-caret-position="221">
           <caret line="16" column="17" lean-forward="false" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
           <folding>
-            <marker date="1507755104000" expanded="false" signature="6:100" ph="..." />
-            <marker date="1507755104000" expanded="true" signature="161:1401" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="394:440" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="455:592" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="594:665" ph="/* void OnDestroy(){ ... */" />
-            <marker date="1507755104000" expanded="true" signature="709:1032" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="753:769" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="859:1024" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
-            <marker date="1507755104000" expanded="true" signature="1054:1396" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="1107:1369" ph="/* GameController.Instance.onCreepKilled (); ... */" />
+            <marker date="1507758239000" expanded="false" signature="6:100" ph="..." />
+            <marker date="1507758239000" expanded="true" signature="149:1521" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="334:385" ph="/* public float minCoins; ... */" />
+            <marker date="1507758239000" expanded="true" signature="422:468" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="483:620" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="622:693" ph="/* void OnDestroy(){ ... */" />
+            <marker date="1507758239000" expanded="true" signature="737:1078" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="781:815" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="905:1070" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
+            <marker date="1507758239000" expanded="true" signature="1100:1516" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="1227:1489" ph="/* GameController.Instance.onCreepKilled (); ... */" />
           </folding>
         </state>
       </provider>
@@ -561,16 +578,17 @@
         <state relative-caret-position="272">
           <caret line="16" column="17" lean-forward="false" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
           <folding>
-            <marker date="1507755104000" expanded="false" signature="6:100" ph="..." />
-            <marker date="1507755104000" expanded="true" signature="161:1401" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="394:440" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="455:592" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="594:665" ph="/* void OnDestroy(){ ... */" />
-            <marker date="1507755104000" expanded="true" signature="709:1032" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="753:769" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="859:1024" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
-            <marker date="1507755104000" expanded="true" signature="1054:1396" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="1107:1369" ph="/* GameController.Instance.onCreepKilled (); ... */" />
+            <marker date="1507758239000" expanded="false" signature="6:100" ph="..." />
+            <marker date="1507758239000" expanded="true" signature="149:1521" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="334:385" ph="/* public float minCoins; ... */" />
+            <marker date="1507758239000" expanded="true" signature="422:468" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="483:620" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="622:693" ph="/* void OnDestroy(){ ... */" />
+            <marker date="1507758239000" expanded="true" signature="737:1078" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="781:815" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="905:1070" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
+            <marker date="1507758239000" expanded="true" signature="1100:1516" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="1227:1489" ph="/* GameController.Instance.onCreepKilled (); ... */" />
           </folding>
         </state>
       </provider>
@@ -752,73 +770,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/TowerAttackRange.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1507060967000" expanded="false" signature="6:78" ph="..." />
-            <marker date="1507060967000" expanded="true" signature="125:441" ph="{...}" />
-            <marker date="1507060967000" expanded="true" signature="204:303" ph="{...}" />
-            <marker date="1507060967000" expanded="true" signature="243:300" ph="{...}" />
-            <marker date="1507060967000" expanded="true" signature="340:439" ph="{...}" />
-            <marker date="1507060967000" expanded="true" signature="379:436" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/GameController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="32" column="42" lean-forward="false" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
-          <folding>
-            <marker date="1507744041000" expanded="false" signature="6:57" ph="..." />
-            <marker date="1507744041000" expanded="true" signature="103:2020" ph="{...}" />
-            <marker date="1507744041000" expanded="true" signature="555:578" ph="{...}" />
-            <marker date="1507744041000" expanded="true" signature="593:648" ph="{...}" />
-            <marker date="1507744041000" expanded="true" signature="664:748" ph="{...}" />
-            <marker date="1507744041000" expanded="true" signature="706:745" ph="{...}" />
-            <marker date="1507744041000" expanded="true" signature="799:1044" ph="{...}" />
-            <marker date="1507744041000" expanded="true" signature="1069:1402" ph="{...}" />
-            <marker date="1507744041000" expanded="true" signature="1404:2017" ph="/* void SpawnCreep(){ ... */" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/iTween.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
           <caret line="6752" column="32" lean-forward="true" selection-start-line="6752" selection-start-column="32" selection-end-line="6752" selection-end-column="32" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/WaveManager.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-          <folding>
-            <marker date="1507744738000" expanded="false" signature="6:78" ph="..." />
-            <marker date="1507744738000" expanded="true" signature="120:912" ph="{...}" />
-            <marker date="1507744738000" expanded="true" signature="360:543" ph="{...}" />
-            <marker date="1507744738000" expanded="true" signature="595:910" ph="{...}" />
-            <marker date="1507744738000" expanded="true" signature="665:904" ph="{...}" />
-            <marker date="1507744738000" expanded="true" signature="932:1077" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/UIManager.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="16" column="39" lean-forward="false" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
-          <folding>
-            <marker date="1506375852000" expanded="false" signature="6:78" ph="..." />
-            <marker date="1506375852000" expanded="true" signature="119:602" ph="{...}" />
-            <marker date="1506375852000" expanded="true" signature="253:292" ph="{...}" />
-            <marker date="1506375852000" expanded="true" signature="352:446" ph="{...}" />
-            <marker date="1506375852000" expanded="true" signature="474:600" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -843,25 +799,6 @@
             <marker date="1507755119000" expanded="true" signature="185:2862" ph="{...}" />
             <marker date="1507755119000" expanded="true" signature="362:444" ph="/* public bool IsBuilding{ ... */" />
             <marker date="1507755119000" expanded="true" signature="548:2858" ph="/* void Awake(){ ... */" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Creep.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
-          <folding>
-            <marker date="1507755104000" expanded="false" signature="6:100" ph="..." />
-            <marker date="1507755104000" expanded="true" signature="161:1401" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="394:440" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="455:592" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="594:665" ph="/* void OnDestroy(){ ... */" />
-            <marker date="1507755104000" expanded="true" signature="709:1032" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="753:769" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="859:1024" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
-            <marker date="1507755104000" expanded="true" signature="1054:1396" ph="{...}" />
-            <marker date="1507755104000" expanded="true" signature="1107:1369" ph="/* GameController.Instance.onCreepKilled (); ... */" />
           </folding>
         </state>
       </provider>
@@ -901,10 +838,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/TowerAttackRange.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1507060967000" expanded="false" signature="6:78" ph="..." />
+            <marker date="1507060967000" expanded="true" signature="125:441" ph="{...}" />
+            <marker date="1507060967000" expanded="true" signature="204:303" ph="{...}" />
+            <marker date="1507060967000" expanded="true" signature="243:300" ph="{...}" />
+            <marker date="1507060967000" expanded="true" signature="340:439" ph="{...}" />
+            <marker date="1507060967000" expanded="true" signature="379:436" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/BuildLayerManager.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="326">
-          <caret line="74" column="5" lean-forward="true" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
+          <caret line="74" column="5" lean-forward="false" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
           <folding>
             <marker date="1507756484000" expanded="true" signature="67:5069" ph="{...}" />
             <marker date="1507756484000" expanded="true" signature="479:502" ph="{...}" />
@@ -921,6 +873,90 @@
             <marker date="1507756484000" expanded="true" signature="2981:3284" ph="{...}" />
             <marker date="1507756484000" expanded="true" signature="2988:3278" ph="/* if(GUILayout.Button(&quot;show build grid&quot;)){ ... */" />
             <marker date="1507756484000" expanded="true" signature="3285:5067" ph="/* void hideBuildLines(){ ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Interfaces.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="3" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="5" selection-end-column="3" />
+          <folding>
+            <marker date="1507757392000" expanded="true" signature="27:78" ph="/* public interface IKillable ... */" />
+            <marker date="1507757392000" expanded="true" signature="108:149" ph="{...}" />
+            <marker date="1507757392000" expanded="true" signature="176:260" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/UIManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="16" column="39" lean-forward="false" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+          <folding>
+            <marker date="1506375852000" expanded="false" signature="6:78" ph="..." />
+            <marker date="1506375852000" expanded="true" signature="119:602" ph="{...}" />
+            <marker date="1506375852000" expanded="true" signature="253:292" ph="{...}" />
+            <marker date="1506375852000" expanded="true" signature="352:446" ph="{...}" />
+            <marker date="1506375852000" expanded="true" signature="474:600" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/GameController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="27" column="46" lean-forward="false" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+          <folding>
+            <marker date="1507758025000" expanded="false" signature="6:57" ph="..." />
+            <marker date="1507758025000" expanded="true" signature="103:1589" ph="{...}" />
+            <marker date="1507758025000" expanded="true" signature="506:529" ph="{...}" />
+            <marker date="1507758025000" expanded="true" signature="544:612" ph="{...}" />
+            <marker date="1507758025000" expanded="true" signature="663:908" ph="{...}" />
+            <marker date="1507758025000" expanded="true" signature="944:967" ph="{...}" />
+            <marker date="1507758025000" expanded="true" signature="973:1586" ph="/* void SpawnCreep(){ ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/WaveManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="33" lean-forward="false" selection-start-line="57" selection-start-column="33" selection-end-line="57" selection-end-column="33" />
+          <folding>
+            <marker date="1507758082000" expanded="true" signature="6:78" ph="..." />
+            <marker date="1507758082000" expanded="true" signature="120:2195" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="347:410" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="433:550" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="484:544" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="583:905" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="957:1437" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="1027:1431" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="1484:1733" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="1615:1727" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="1772:2193" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="2214:2583" ph="{...}" />
+            <marker date="1507758082000" expanded="true" signature="2456:2581" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Creep.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="24" column="5" lean-forward="false" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+          <folding>
+            <marker date="1507758239000" expanded="false" signature="6:100" ph="..." />
+            <marker date="1507758239000" expanded="true" signature="149:1521" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="334:385" ph="/* public float minCoins; ... */" />
+            <marker date="1507758239000" expanded="true" signature="422:468" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="483:620" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="622:693" ph="/* void OnDestroy(){ ... */" />
+            <marker date="1507758239000" expanded="true" signature="737:1078" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="781:815" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="905:1070" ph="/* GameObject newNotice = Instantiate (DamageNoticePrefab, _uiCanvas.transform, false); ... */" />
+            <marker date="1507758239000" expanded="true" signature="1100:1516" ph="{...}" />
+            <marker date="1507758239000" expanded="true" signature="1227:1489" ph="/* GameController.Instance.onCreepKilled (); ... */" />
           </folding>
         </state>
       </provider>
