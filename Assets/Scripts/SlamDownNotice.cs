@@ -5,7 +5,16 @@ using UnityEngine;
 public class SlamDownNotice : MonoBehaviour {
 
 	public TMP_Text Text;
+	public bool AnimateOnAwake;
 	[SerializeField] float _displayDuration;
+
+	void Awake()
+	{
+		if (AnimateOnAwake)
+		{
+			SlamDown();
+		}
+	}
 	
 	public void SlamDown()
 	{

@@ -1,23 +1,29 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework.Interfaces;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
-public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler {
-
-	public static int widthInUnits;
-	public static int heightInUnits;
+public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
+{
+	public int Level;
+	public int Level1Cost;
+	public int Level2Cost;
+	public int Level3Cost;
 	[SerializeField] GameObject _highlight;
 	[SerializeField] GameObject _buildConfirmUI;
 	[SerializeField] LayerMask _buildpLayerMask;
 	[SerializeField] GameObject attackProjectile;
 	[SerializeField] Transform _turret;
 	[SerializeField] SphereCollider _attackDetector;
-	public Sprite menuImage;
-	public Sprite level1;
-	public Sprite level2;
-	public Sprite level3;
+	[SerializeField] bool _isBuilt;
+	[SerializeField] Animator _anim;
+	[SerializeField] GameObject _towerObj;
+	[SerializeField] GameObject _turretBaseObj;
+	[SerializeField] GameObject _turretObj;
+	[SerializeField] Color _selectedBrightnessMax;
+	[SerializeField] TMP_Text TowerName;
+	[SerializeField] TMP_Text TowerLevel;
 	[Range(0f, 5f)]
 	public float attackSpeedInSeconds;
 	public float AttackDamage;
@@ -25,16 +31,12 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	Transform currentTarget;
 	List<Transform> potentialTargets;
 	bool _isSelected;
-	[SerializeField] bool _isBuilt;
-	[SerializeField] Animator _anim;
-	[SerializeField] GameObject _towerObj;
-	[SerializeField] GameObject _turretBaseObj;
-	[SerializeField] GameObject _turretObj;
-	[SerializeField] Color _selectedBrightnessMax;
 	Material _rendMat;
 	Material _turretMat;
 	Material _turretBaseObjMat;
-
+	bool _isInGhostMode;
+	
+	
 	void Awake()
 	{
 		potentialTargets = new List<Transform> ();
@@ -45,6 +47,8 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 
 	public void SetGhostMode(bool isEnabled)
 	{
+		_isSelected = true;
+		_isInGhostMode = isEnabled;
 		_attackDetector.enabled = !isEnabled;
 		GetComponent<NavMeshObstacle>().enabled = !isEnabled;				
 	}
@@ -78,16 +82,20 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 		
 	public void Attack(Transform target){
 		if (!(Time.time > nextAttackTime)) return;
-		nextAttackTime = Time.time + attackSpeedInSeconds;
-		GameObject newProjectile = Instantiate (attackProjectile, transform.position, Quaternion.identity);
-		newProjectile.transform.LookAt(potentialTargets[0]);
-		newProjectile.transform.position = new Vector3 (transform.position.x, 1f, transform.position.z);
-		newProjectile.GetComponent <Projectile>().Damage = AttackDamage;
-		newProjectile.GetComponent <Projectile>().fire (target);
+		if (target.GetComponent<Creep>().CanBeAttacked)
+		{
+			nextAttackTime = Time.time + attackSpeedInSeconds;
+			GameObject newProjectile = Instantiate (attackProjectile, transform.position, Quaternion.identity);
+			newProjectile.transform.LookAt(potentialTargets[0]);
+			newProjectile.transform.position = new Vector3 (transform.position.x, 1f, transform.position.z);
+			newProjectile.GetComponent <Projectile>().Damage = AttackDamage;
+			newProjectile.GetComponent <Projectile>().Fire (target);	
+		}
 	}
 
 	public void SetSelected(bool isSelected)
 	{
+		if (_isInGhostMode) return;
 		if (isSelected)
 		{
 			_isSelected = true;
@@ -101,6 +109,7 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 				"looptype", iTween.LoopType.pingPong, 
 				"time", 0.5f,
 				"easetype", iTween.EaseType.linear));
+			SetTowerInfoActive(true);
 		}
 		else
 		{
@@ -108,6 +117,7 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 			_highlight.SetActive(false);
 			iTween.StopByName(gameObject, "pulsing");
 			SetNewEmissionColor(Color.black);
+			SetTowerInfoActive(false);
 		}
 	}
 
@@ -117,13 +127,22 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 		_turretMat.SetColor("_EmissionColor", newColor);
 		_turretBaseObjMat.SetColor("_EmissionColor", newColor);
 	}
-	
+
+	void SetTowerInfoActive(bool isActive)
+	{
+		if (isActive)
+		{
+			TowerLevel.text = string.Concat("Level ", Level.ToString());
+			TowerName.text = name;	
+		}
+		TowerLevel.gameObject.SetActive(isActive);
+		TowerName.gameObject.SetActive(isActive);
+	}
+
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		if (_isSelected)
-		{
-			BuildLayerManager.instance.SetIsBuilding(true);
-		}
+		SetSelected(true);
+		BuildLayerManager.instance.SetIsMoving(true);
 	}
 
 	public void OnDrag(PointerEventData eventData)
@@ -134,8 +153,15 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 		Physics.Raycast(ray, out hit, Mathf.Infinity, _buildpLayerMask);
 		if (hit.collider == null) return;
 		if (transform.position == hit.collider.transform.position) return;
-		transform.position = hit.collider.transform.position;
-		// ray onto the buildplaces.
+		if (Grid.instance.CanBuildAt(hit.collider.transform.position))
+		{
+			transform.position = hit.collider.transform.position;
+		}
+		else
+		{
+			print("cannot build here.");
+		}
+		
 	}
 	
 	public void OnPointerClick(PointerEventData eventData)
@@ -148,10 +174,11 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-		if (!_isSelected)
-		{
-			BuildLayerManager.instance.SetIsBuilding(false);	
-		}
+//		if (!_isSelected)
+//		{
+//			BuildLayerManager.instance.SetIsBuilding(false);		
+//		}
+		BuildLayerManager.instance.SetIsMoving(false);
 	}
 
 	public void OnPointerDown(PointerEventData eventData)
@@ -162,7 +189,7 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 	public void ShowBuildConfirmUI()
 	{
 		_buildConfirmUI.SetActive(true);
-		BuildLayerManager.instance.SetIsBuilding(true);
+		BuildLayerManager.instance.SetIsInBuildConfirm(true);
 	}
 
 	public void OnBuildConfirm()
@@ -171,13 +198,14 @@ public class Tower : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, I
 		SetSelected(false);
 		_buildConfirmUI.SetActive(false);
 		_isBuilt = true;
-		BuildLayerManager.instance.SetIsBuilding(false);
-		BuildLayerManager.instance.OnBuildConfirm();
+		Grid.instance.BuildAt(transform.position);
+		BuildLayerManager.instance.SetIsInBuildConfirm(false);
+		BuildLayerManager.instance.OnBuildConfirm(this);
 	}
 
 	public void OnBuildCancel()
 	{
-		BuildLayerManager.instance.SetIsBuilding(false);
+		BuildLayerManager.instance.SetIsInBuildConfirm(false);
 		Destroy(gameObject);
 	}
 }

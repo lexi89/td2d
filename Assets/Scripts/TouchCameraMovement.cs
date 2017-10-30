@@ -1,28 +1,79 @@
-﻿
+﻿using System.Collections;
 using UnityEngine;
 
 public class TouchCameraMovement : MonoBehaviour
 {
-	[SerializeField] float _scrollSpeed;
-	[SerializeField] float _fastSwipeThreshold;
-	Vector3 oldPos;
+	[SerializeField] float _cameraSpeed;
+	public Transform TargetCamera;
+	Vector3 _dragStartWorldPos;
+	Vector3 _previousTouchPos;
+	bool moveToTarget;
+	bool _isMoving;
+	#if UNITY_EDITOR
+	Vector3 _previousMousePos;
 	
-	void LateUpdate ()
+	#endif
+
+	void Update()
 	{
-		if (BuildLayerManager.instance.IsBuilding)
+		if (_isMoving)
+		{
+			transform.position = Vector3.Lerp(transform.position, TargetCamera.position, 0.2f);
+			if (Vector3.Distance(transform.position, TargetCamera.position) < 0.1f)
+			{
+				_isMoving = false;
+			}	
+		}
+	}
+
+	
+	void LateUpdate()
+	{
+		if (BuildLayerManager.instance.IsMovingTower)
 		{
 			return;
 		}
-		if (Input.GetMouseButtonDown (0)){
-			
-			oldPos = Input.mousePosition;
-		} else if(Input.GetMouseButton (0)){
-			Vector3 posDifference = Input.mousePosition - oldPos;
-			
-			Vector3 AdjustedPosDifference = new Vector3(-posDifference.x * _scrollSpeed, -posDifference.y*_scrollSpeed, -posDifference.z*_scrollSpeed);
-			transform.Translate(AdjustedPosDifference);	
-			oldPos = Input.mousePosition;
+		
+		#if !UNITY_EDITOR
+		if (Input.touchCount > 0)
+				{
+					Touch touch = Input.touches[0];
+					switch (touch.phase)
+					{
+						case TouchPhase.Began:					
+							break;
+						case TouchPhase.Moved:
+							float deltaX = touch.deltaPosition.x;
+							float deltaY = touch.deltaPosition.y;
+							TargetCamera.position -= transform.right * deltaX * _cameraSpeed;
+							TargetCamera.position -= transform.up * deltaY * _cameraSpeed;
+							_isMoving = true;
+							break;
+						case TouchPhase.Ended:
+								break;
+						default:
+							break;
+					}
+				}
+	#elif UNITY_EDITOR
+		if (Input.GetMouseButtonDown(0))
+		{
+			_previousMousePos = Input.mousePosition;
 		}
+		if (Input.GetMouseButton(0))
+		{
+			Vector3 delta = Input.mousePosition - _previousMousePos;
+			float deltaX = delta.x;
+			float deltaY = delta.y;
+			TargetCamera.position -= transform.right * deltaX * _cameraSpeed;
+			TargetCamera.position -= transform.up * deltaY * _cameraSpeed;
+			_isMoving = true;
+			_previousMousePos = Input.mousePosition;
+		}
+		#endif
+		
+
+		
 	}
 }
 

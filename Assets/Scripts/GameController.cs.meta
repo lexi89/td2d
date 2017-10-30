@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: 9882c2a703bdb4bebbcd4cf7bac89093
-timeCreated: 1492962947
+timeCreated: 1508095161
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2
   defaultReferences: []
-  executionOrder: 0
+  executionOrder: -100
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

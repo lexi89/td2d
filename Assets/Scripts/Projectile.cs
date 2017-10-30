@@ -10,9 +10,8 @@ public class Projectile : MonoBehaviour {
 	Vector3 _targetOrginalPos;
 	
 
-	public void fire(Transform newTarget)
+	public void Fire(Transform newTarget)
 	{
-		
 		_target = newTarget;
 		_targetOrginalPos = newTarget.position;
 		_isFlying = true;
@@ -23,7 +22,7 @@ public class Projectile : MonoBehaviour {
 			if (_target != null)
 			{
 				transform.LookAt(_target.position);
-				iTween.MoveUpdate(gameObject, _target.position, SecondsToTarget);
+				iTween.MoveUpdate(gameObject, new Vector3(_target.position.x, _target.position.y + 1f, _target.position.z), SecondsToTarget);
 //				transform.position = Vector3.Lerp (transform.position, _target.position, speed);	
 			}
 			else
@@ -31,7 +30,7 @@ public class Projectile : MonoBehaviour {
 				// fly to the target original pos and self destruct
 //				gameObject.AddComponent<Rigidbody>();
 				transform.LookAt(_targetOrginalPos);
-				iTween.MoveUpdate(gameObject, _targetOrginalPos, SecondsToTarget);
+				iTween.MoveUpdate(gameObject, new Vector3(_targetOrginalPos.x, _targetOrginalPos.y + 1f, _targetOrginalPos.z), SecondsToTarget);
 				if (Vector3.Distance(transform.position, _targetOrginalPos) < 1f)
 				{
 					Destroy(gameObject);
@@ -42,6 +41,7 @@ public class Projectile : MonoBehaviour {
 
 	void OnCollisionEnter(Collision other)
 	{
+//		print("on collision enter");
 		if (other.gameObject.CompareTag("Creep"))
 		{
 			other.gameObject.GetComponent<Creep>().TakeDamage(Damage);
@@ -50,6 +50,7 @@ public class Projectile : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
+		
 		_isFlying = false;
 		if(col.tag == "Creep" && col.gameObject.activeSelf){
 //			if(ExplosionPrefab != null){

@@ -39,7 +39,7 @@ public class WaveManager : MonoBehaviour
             Vector3 newSpawnPoint = Spawnpoints[Random.Range(0, Spawnpoints.Count)].position;
             GameObject newCreepGO = Instantiate(CreepPrefab, newSpawnPoint, Quaternion.identity);
             Creep newCreep = newCreepGO.GetComponent<Creep>();
-            newCreep.Wave = newWave;
+            newCreep.WaveID = newWave.ID;
             newCreep.WaveManager = this;
             yield return new WaitForSeconds(0.2f);
         }
@@ -47,10 +47,19 @@ public class WaveManager : MonoBehaviour
 
     public void OnCreepDeath(Creep deadCreep)
     {
-        _activeWaves[deadCreep.Wave.ID].CreepsRemaining--;
-        if (_activeWaves[deadCreep.Wave.ID].CreepsRemaining == 0)
+        if (!_activeWaves.ContainsKey(deadCreep.WaveID))
         {
-            _activeWaves.Remove(deadCreep.Wave.ID);
+            Debug.LogWarning("Creep died that had no wave.");
+            return;
+        }
+//        print("creep wave id: " + deadCreep.Wave.ID);
+//        print("creeps left in the wave: " + _activeWaves[deadCreep.Wave.ID].CreepsRemaining);
+        _activeWaves[deadCreep.WaveID].CreepsRemaining--;
+//        print("after: " + _activeWaves[deadCreep.Wave.ID].CreepsRemaining);
+        if (_activeWaves[deadCreep.WaveID].CreepsRemaining == 0)
+        {
+//            print("killed all creeps in the wave.");
+            _activeWaves.Remove(deadCreep.WaveID);
             StartCoroutine(NextWave());
         }
     }

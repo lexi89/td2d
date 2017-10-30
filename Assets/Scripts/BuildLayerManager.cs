@@ -1,19 +1,26 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class BuildLayerManager : MonoBehaviour {
 
 	public static BuildLayerManager instance;
 	public bool IsBuilding{get { return _isBuilding; }}
+	public bool IsMovingTower{get { return _isMovingTower; }}
+	[SerializeField] Camera MainCam;
 	[SerializeField] LayerMask _buildLayerMask;
 	[SerializeField] GameObject _buildPopup;
 	[SerializeField] Vector3 BuildpoupOffset;
 	[SerializeField] GameObject _buildArrows;
+	
+//	[SerializeField] GameObject _buildArrows;
 	Tower _currentSelectedTower;
 	GameObject newTowerGO;
 	Vector3 _currentBuildPos;
 	bool _isBuilding;
 	bool _isOnBuildConfirm;
-	
+	bool _isMovingTower;
+	bool _isInBuildConfirm;
+
 	void Awake(){
 		instance = this;
 	}
@@ -29,49 +36,94 @@ public class BuildLayerManager : MonoBehaviour {
 			_buildPos = hit.collider.transform.position;
 		}
 		newTowerGO = Instantiate(TowerPrefab);
+		newTowerGO.name = TowerPrefab.name;
 		newTowerGO.transform.position = _buildPos;
 		Tower newTower = newTowerGO.GetComponent<Tower>();
-		OnTowerSelected(newTower);
+		_currentSelectedTower = newTower;
+		MoveBuildArrowsToTower();
+//		OnTowerSelected(newTower);
 		newTower.SetGhostMode(true);
 		_currentSelectedTower = newTower;
-		newTower.SetSelected(true);
+//		newTower.SetSelected(true);
 		newTower.ShowBuildConfirmUI();
 		_currentBuildPos = _buildPos;
-		_isOnBuildConfirm = true;
+		SetIsInBuildConfirm(true);
 	}
 
-	public void OnBuildConfirm()
+	public void OnBuildConfirm(Tower tower)
 	{
-		_isOnBuildConfirm = false;
+		SetIsInBuildConfirm(false);
 		_buildArrows.SetActive(false);
 		_buildArrows.transform.SetParent(transform.parent, true);
+		GameController.Instance.SpendCoins(tower.Level1Cost);
+		Grid.instance.BuildAt(tower.transform.position);
 	}
 
-	public void SetIsBuilding(bool isBuilding)
-	{
-		_isBuilding = isBuilding;
-	}
+//	public void SetIsBuilding(bool isBuilding)
+//	{
+//		_isBuilding = isBuilding;
+//		if (!isBuilding)
+//		{
+//			_currentSelectedTower = null;
+//		}
+//	}
+
+	
 
 	public void OnEmptyBuildPlaceClicked()
 	{
-		if (_isOnBuildConfirm) return;
+		if (_isOnBuildConfirm)
+		{
+			return;
+		}
 		_isBuilding = false;
-		if(_currentSelectedTower != null) _currentSelectedTower.SetSelected(false);
+		if (_currentSelectedTower != null)
+		{
+//			_currentSelectedTower.SetGhostMode(false);
+			_currentSelectedTower.SetSelected(false);
+		}
+		else
+		{
+			print("no current tower..");
+		}
 		_buildArrows.SetActive(false);
 		_buildArrows.transform.SetParent(transform.parent, true);
 	}
 
 	public void OnTowerSelected(Tower newTowerSelected)
 	{
-		if (_currentSelectedTower != null)
+		if (CanSelectSomething())
 		{
-			_currentSelectedTower.SetSelected(false);
+			if (_currentSelectedTower != null)
+			{
+				_currentSelectedTower.SetSelected(false);
+			}
+			_currentSelectedTower = newTowerSelected;
+			_currentSelectedTower.SetSelected(true);
+			MoveBuildArrowsToTower();	
 		}
-		_currentSelectedTower = newTowerSelected;
-		_currentSelectedTower.SetSelected(true);
+	}
+
+	void MoveBuildArrowsToTower()
+	{
 		_buildArrows.transform.position = new Vector3(_currentSelectedTower.transform.position.x, 0.01f, _currentSelectedTower.transform.position.z);
 		_buildArrows.transform.SetParent(_currentSelectedTower.transform, true);
 		_buildArrows.SetActive(true);
+	}
+	
+	public void SetIsInBuildConfirm(bool isInBuildConfirm)
+	{
+		_isOnBuildConfirm = isInBuildConfirm;
+	}
+
+	public void SetIsMoving(bool isMoving)
+	{
+		_isMovingTower = isMoving;
+	}
+
+	public bool CanSelectSomething()
+	{
+		return !_isOnBuildConfirm;
 	}
 
 	void Update()

@@ -5,18 +5,20 @@ using TMPro;
 public class GameController : MonoBehaviour {
 
 	public static GameController Instance;
+	public event SimpleEvent OnCoinChange;
 	public Camera MainCamera;
 	public Transform Castle;
+	public int CoinCount{get { return _coinCount; }}
 	[SerializeField] Canvas UICanvas;
 	[SerializeField] GameObject CBTprefab;
 	[SerializeField] float CBTYoffset;
-	
+	[SerializeField] TMP_Text _coinText;
 	[SerializeField] WaveManager _waveManager;
-
-//	public Text waveCountUIText;
 	public TMP_Text waveNoticeText;
 	public int Difficulty{get { return _difficulty; }}
+	public GameObject GameOverNotice;
 	int _difficulty;
+	[SerializeField]int _coinCount;
 
 	void Awake(){
 		Instance = this;
@@ -25,16 +27,16 @@ public class GameController : MonoBehaviour {
 	void Start()
 	{
 		_difficulty = 0;
-		StartCoroutine(_waveManager.NextWave());
+//		StartCoroutine(_waveManager.NextWave());
 	}
 
 	public void DisplayCBT(string text, Vector3 pos)
 	{
-		GameObject CBTGO = Instantiate(CBTprefab, UICanvas.transform);
-		CBTGO.GetComponent<TMP_Text>().text = text;
-		Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
-		screenPos.y += CBTYoffset;
-		CBTGO.transform.position = screenPos;
+//		GameObject CBTGO = Instantiate(CBTprefab, UICanvas.transform);
+//		CBTGO.GetComponent<TMP_Text>().text = text;
+//		Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
+//		screenPos.y += CBTYoffset;
+//		CBTGO.transform.position = screenPos;
 	}
 
 	public void IncrementDifficulty()
@@ -42,33 +44,19 @@ public class GameController : MonoBehaviour {
 		_difficulty++;
 	}
 
+	public void SpendCoins(int coinsSpent)
+	{
+		_coinCount -= coinsSpent;
+		if (OnCoinChange != null)
+		{
+			OnCoinChange();
+		}
+	}
 
-	
-
-//	void SpawnCreep(){
-//		if(numberOfCreepsSpawned < waves[waveCount].numberOfCreeps){			
-//			Instantiate (CreepPrefab, SpawnPoint.position, Quaternion.Euler (0f,90f,0f));
-//			numberOfCreepsSpawned++;
-//		} else {
-//			CancelInvoke ();
-//		}
-//	}
-//
-//	public void onCastleHit(){
-//		numberOfCreepsKilled++;
-//	}
-//
-//	public void onCreepKilled(){
-//		numberOfCreepsKilled++;
-//		if(numberOfCreepsKilled == numberOfCreepsToSpawn){
-//			StartCoroutine ("WaveComplete");
-//		}
-//	}
-//
-//	IEnumerator WaveComplete(){
-//		// show end of level rewards;
-//		yield return new WaitForSeconds (2f);
-//		nextWave ();
-//	}
+	public void OnCastleDestroyed()
+	{
+		Instantiate(GameOverNotice, UICanvas.transform);
+		
+	}
 
 }
